@@ -1,0 +1,44 @@
+.center {
+  margin-left: auto;
+  margin-right: auto;
+  /* margin-top: auto; */
+  /* margin-bottom: auto; */
+}
+
+.color1 {
+  background-color: #738290;
+}
+
+.color2 {
+  background-color: #a1b5d8;
+}
+
+.color3 {
+  background-color: #fffcf7;
+}
+
+.color4 {
+  background-color: #e4f0d0;
+}
+
+.color5 {
+  background-color: #c2d8b9;
+}
+
+h1 {
+  text-align: center;
+}
+
+table {
+  width: 70%;
+  height: 70%;
+  table-layout: fixed;
+}
+
+tr {
+  height: 100px;
+}
+
+td {
+    padding-right: 20px;
+}
