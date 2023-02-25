@@ -1,31 +1,45 @@
-/* 
-user name input dialog, ok and cancel
-player 1 blue
-player 2 red
- */
-// const player1Name = prompt("Player1 Name, and you will be Blue");
-// const player2Name = prompt("Player2 Name, and you will be Red");
+class CountFour {
+  currentPlayer = 0;
+  currentPlacedMap = new Map();
+  // private placedMap: { [key: {number, number}]: string } = {};
 
-/* 
-click column
-set color to the bottom of the current click column
-check win situation: horizontally, vertically or diagonally 
-switch player
- */
-$(".board td").click(function () {
-  alert(this.cellIndex);  // 0, 1, 2, 3, 4, 5, 6
-  checkWin();
-  switchPlayer();
-});
+  constructor(columnCount, rowCount) {
+    this.resetGame(columnCount, rowCount);
+  }
 
-let currentPlayer = 0;
+  getPlayerPlace(col) {
+    this.currentPlacedMap.set(col, this.currentPlacedMap.get(col) - 1);
+    // alert(this.currentPlacedMap.get(col));
+    return { colIdex: col, rowIdex: this.currentPlacedMap.get(col) };
+  }
 
-function checkWin() {}
+  resetGame(columnCount, rowCount) {
+    for (let i = 0; i < columnCount; i += 1) {
+      this.currentPlacedMap.set(i, rowCount);
+    }
+    this.currentPlayer = 0;
+  }
 
-function switchPlayer() {
-  if (currentPlayer === 0) {
-    currentPlayer = 1;
-  } else {
-    currentPlayer = 0;
+  checkWin() {
+    // if anyone wins, resetGame
+    // else, switch player
+  }
+
+  switchPlayer() {
+    this.currentPlayer = this.currentPlayer === 0 ? 1 : 0;
   }
 }
+
+const columnCount = $(".board tr:first td").length;
+const rowCount = $(".board tr").length;
+// alert(columnCount);
+// alert(rowCount);
+
+const countFour = new CountFour(columnCount, rowCount);
+
+$(".board td").click(function () {
+  // alert(this.cellIndex); // 0, 1, 2, 3, 4, 5, 6
+  const position = countFour.getPlayerPlace(this.cellIndex);
+  alert(`position: ${position.colIdex} ${position.rowIdex}`);
+  countFour.checkWin();
+});
