@@ -35,6 +35,14 @@ class CountFour {
     this.placedMap.clear();
   }
 
+  isALine(colorArr) {
+    const allEqual = (arr) => arr.every((val) => val === arr[0]);
+    if (!colorArr.includes(undefined)) {
+      return allEqual(colorArr);
+    }
+    return false;
+  }
+
   checkWin(currentPlaced) {
     // if anyone wins, resetGame
     /* 4 different moving windows to check win: 
@@ -43,8 +51,7 @@ class CountFour {
     diagonal right win,
     diagonal left win
      */
-
-    let isWin = false;
+    let colorArr;
     for (let i = 0; i < 4; i++) {
       let firstKey =
         currentPlaced.colIdex - 3 + i + "," + currentPlaced.rowIdex;
@@ -54,21 +61,40 @@ class CountFour {
         currentPlaced.colIdex - 1 + i + "," + currentPlaced.rowIdex;
       let currentKey = currentPlaced.colIdex + i + "," + currentPlaced.rowIdex;
 
-      if (
-        this.placedMap.get(firstKey) === this.placedMap.get(secondKey) &&
-        this.placedMap.get(firstKey) === this.placedMap.get(thirdKey) &&
-        this.placedMap.get(firstKey) === this.placedMap.get(currentKey)
-      ) {
-        // isWin = true;
-        // break;
+      colorArr = [
+        this.placedMap.get(firstKey),
+        this.placedMap.get(secondKey),
+        this.placedMap.get(thirdKey),
+        this.placedMap.get(currentKey),
+      ];
+      if (this.isALine(colorArr)) {
+        // alert("h " + colorArr);
         return true;
       }
     }
 
-    // if (isWin) {
-    //   const color = this.colorMap.get(this.currentPlayer);
-    //   alert("player color " + color + " is winner");
-    // }
+    for (let i = 0; i < 4; i++) {
+      let firstKey =
+        currentPlaced.colIdex + "," + (currentPlaced.rowIdex - 3 + i);
+      let secondKey =
+        currentPlaced.colIdex + "," + (currentPlaced.rowIdex - 2 + i);
+      let thirdKey =
+        currentPlaced.colIdex + "," + (currentPlaced.rowIdex - 1 + i);
+      let currentKey =
+        currentPlaced.colIdex + "," + (currentPlaced.rowIdex + i);
+
+      // alert(firstKey + " " + secondKey + " " + thirdKey + " " + currentKey);
+      colorArr = [
+        this.placedMap.get(firstKey),
+        this.placedMap.get(secondKey),
+        this.placedMap.get(thirdKey),
+        this.placedMap.get(currentKey),
+      ];
+      if (this.isALine(colorArr)) {
+        // alert("v " + colorArr);
+        return true;
+      }
+    }
   }
 
   switchPlayer() {
