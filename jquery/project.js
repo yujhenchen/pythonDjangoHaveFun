@@ -95,6 +95,33 @@ class CountFour {
         return true;
       }
     }
+    /* 
+diagonal left
+*/
+    for (let i = 0; i < 4; i++) {
+      let firstKey =
+        currentPlaced.colIdex - i + 3 + "," + (currentPlaced.rowIdex - 3 + i);
+      let secondKey =
+        currentPlaced.colIdex - i + 2 + "," + (currentPlaced.rowIdex - 2 + i);
+      let thirdKey =
+        currentPlaced.colIdex - i + 1 + "," + (currentPlaced.rowIdex - 1 + i);
+      let currentKey =
+        currentPlaced.colIdex - i + "," + (currentPlaced.rowIdex + i);
+
+      console.log(
+        firstKey + " " + secondKey + " " + thirdKey + " " + currentKey
+      );
+      colorArr = [
+        this.placedMap.get(firstKey),
+        this.placedMap.get(secondKey),
+        this.placedMap.get(thirdKey),
+        this.placedMap.get(currentKey),
+      ];
+      if (this.isALine(colorArr)) {
+        // alert("v " + colorArr);
+        return true;
+      }
+    }
   }
 
   switchPlayer() {
