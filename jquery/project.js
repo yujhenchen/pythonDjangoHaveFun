@@ -5,6 +5,10 @@ class CountFour {
   placedMap = new Map();
   gameLayout = {};
 
+  FIRST = 1;
+  SECOND = 2;
+  THIRD = 3;
+
   constructor(columnCount, rowCount) {
     this.gameLayout = { x: columnCount, y: rowCount };
     this.resetGame();
@@ -45,12 +49,13 @@ class CountFour {
   checkWin(currentPlaced) {
     let colorArr;
     for (let i = 0; i < 4; i++) {
-      let firstKey =
-        currentPlaced.colIdex - 3 + i + "," + currentPlaced.rowIdex;
-      let secondKey =
-        currentPlaced.colIdex - 2 + i + "," + currentPlaced.rowIdex;
+      let firstKey = `${currentPlaced.colIdex - this.THIRD + i},${
+        currentPlaced.rowIdex
+      }`;
+      let secondKey = `${ currentPlaced.colIdex - this.SECOND + i},${currentPlaced.rowIdex}`;
+      // + "," + ;
       let thirdKey =
-        currentPlaced.colIdex - 1 + i + "," + currentPlaced.rowIdex;
+        currentPlaced.colIdex - this.FIRST + i + "," + currentPlaced.rowIdex;
       let currentKey = currentPlaced.colIdex + i + "," + currentPlaced.rowIdex;
 
       colorArr = [
@@ -65,8 +70,9 @@ class CountFour {
     }
 
     for (let i = 0; i < 4; i++) {
-      let firstKey =
-        currentPlaced.colIdex + "," + (currentPlaced.rowIdex - 3 + i);
+      let firstKey = `${currentPlaced.colIdex},${
+        currentPlaced.rowIdex - 3 + i
+      }`;
       let secondKey =
         currentPlaced.colIdex + "," + (currentPlaced.rowIdex - 2 + i);
       let thirdKey =
@@ -153,19 +159,24 @@ $(".board td").click(function () {
   const position = countFour.getPlayerPlace(this.cellIndex);
 
   // place
-  const td = $(".board tr")
-    .eq(position.rowIdex)
-    .find("td")
-    .eq(position.colIdex);
-
-  const button = td.find("button");
+  // const td = $(".board tr")
+  //   .eq(position.rowIdex)
+  //   .find("td")
+  //   .eq(position.colIdex);
 
   const currentColor = countFour.colorMap.get(countFour.currentPlayer);
 
-  button.css("background-color", currentColor);
+  $(".board tr")
+    .eq(position.rowIdex)
+    .find("td")
+    .eq(position.colIdex)
+    .find("button")
+    .css("background-color", currentColor);
 
-  const positionKey = position.colIdex + "," + position.rowIdex;
-  countFour.savePlayerPlaced(positionKey, currentColor);
+  countFour.savePlayerPlaced(
+    position.colIdex + "," + position.rowIdex,
+    currentColor
+  );
 
   if (countFour.checkWin(position)) {
     alert("winner is: " + currentColor);
