@@ -2,11 +2,12 @@ class CountFour {
   currentPlayer = 0;
   currentPlacedMap = new Map();
   colorMap = new Map();
-  // private placedMap: { [key: {number, number}]: string } = {};
   placedMap = new Map();
+  gameLayout = {};
 
   constructor(columnCount, rowCount) {
-    this.resetGame(columnCount, rowCount);
+    this.gameLayout = { x: columnCount, y: rowCount };
+    this.resetGame();
     this.initColorMap();
   }
 
@@ -26,14 +27,15 @@ class CountFour {
     this.placedMap.set(positionKey, color);
   }
 
-  resetGame(columnCount, rowCount) {
-    for (let i = 0; i < columnCount; i += 1) {
+  resetGame() {
+    for (let i = 0; i < this.gameLayout.x; i += 1) {
       this.currentPlacedMap.set(i, rowCount);
     }
     this.currentPlayer = 0;
+    this.placedMap.clear();
   }
 
-  checkWin(placedPosition) {
+  checkWin(currentPlaced) {
     // if anyone wins, resetGame
     /* 4 different moving windows to check win: 
     horizontal win, 
@@ -42,7 +44,31 @@ class CountFour {
     diagonal left win
      */
 
-    for (let i = 0; i < 4; i += 1) {}
+    let isWin = false;
+    for (let i = 0; i < 4; i++) {
+      let firstKey =
+        currentPlaced.colIdex - 3 + i + "," + currentPlaced.rowIdex;
+      let secondKey =
+        currentPlaced.colIdex - 2 + i + "," + currentPlaced.rowIdex;
+      let thirdKey =
+        currentPlaced.colIdex - 1 + i + "," + currentPlaced.rowIdex;
+      let currentKey = currentPlaced.colIdex + i + "," + currentPlaced.rowIdex;
+
+      if (
+        this.placedMap.get(firstKey) === this.placedMap.get(secondKey) &&
+        this.placedMap.get(firstKey) === this.placedMap.get(thirdKey) &&
+        this.placedMap.get(firstKey) === this.placedMap.get(currentKey)
+      ) {
+        // isWin = true;
+        // break;
+        return true;
+      }
+    }
+
+    // if (isWin) {
+    //   const color = this.colorMap.get(this.currentPlayer);
+    //   alert("player color " + color + " is winner");
+    // }
   }
 
   switchPlayer() {
@@ -89,5 +115,8 @@ $(".board td").click(function () {
   //   alert(key + " = " + value);
   // }
 
-  countFour.checkWin();
+  if (countFour.checkWin(position)) {
+    alert("winner is: " + currentColor);
+    countFour.resetGame();
+  }
 });
