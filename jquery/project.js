@@ -3,6 +3,7 @@ class CountFour {
   currentPlacedMap = new Map();
   colorMap = new Map();
   // private placedMap: { [key: {number, number}]: string } = {};
+  placedMap = new Map();
 
   constructor(columnCount, rowCount) {
     this.resetGame(columnCount, rowCount);
@@ -21,6 +22,10 @@ class CountFour {
     return { colIdex: col, rowIdex: this.currentPlacedMap.get(col) };
   }
 
+  savePlayerPlaced(positionKey, color) {
+    this.placedMap.set(positionKey, color);
+  }
+
   resetGame(columnCount, rowCount) {
     for (let i = 0; i < columnCount; i += 1) {
       this.currentPlacedMap.set(i, rowCount);
@@ -28,8 +33,16 @@ class CountFour {
     this.currentPlayer = 0;
   }
 
-  checkWin() {
+  checkWin(placedPosition) {
     // if anyone wins, resetGame
+    /* 4 different moving windows to check win: 
+    horizontal win, 
+    vertical win,
+    diagonal right win,
+    diagonal left win
+     */
+
+    for (let i = 0; i < 4; i += 1) {}
   }
 
   switchPlayer() {
@@ -59,10 +72,22 @@ $(".board td").click(function () {
 
   // alert(countFour.currentPlayer);
   // alert(countFour.colorMap.get(countFour.currentPlayer));
-  button.css(
-    "background-color",
-    countFour.colorMap.get(countFour.currentPlayer)
-  );
+  const currentColor = countFour.colorMap.get(countFour.currentPlayer);
+
+  button.css("background-color", currentColor);
+
+  // alert(position.colIdex + "," + position.rowIdex);
+  const positionKey = position.colIdex + "," + position.rowIdex;
+  countFour.savePlayerPlaced(positionKey, currentColor);
+  // alert(
+  //   positionKey +
+  //     " " +
+  //     countFour.placedMap.get(position.colIdex + "," + position.rowIdex)
+  // );
+
+  // for (let [key, value] of countFour.placedMap) {
+  //   alert(key + " = " + value);
+  // }
 
   countFour.checkWin();
 });
