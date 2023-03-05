@@ -19,17 +19,16 @@ class GuessNumbers:
         if self.__guess_nums == self.__target_nums:
             return "Perfect Match"
 
-        isMatchOrClose = False
         hasMatchOrClose = False
         for current_num in self.__guess_nums:
             if current_num in self.__target_nums:
                 hasMatchOrClose = True
-                isMatchOrClose = True
-                self.__result_dict["c"] = self.__result_dict["c"] + 1
                 current_idx = self.__guess_nums.index(current_num)
+
                 if current_num == self.__target_nums[current_idx]:
                     self.__result_dict["m"] = self.__result_dict["m"] + 1
-            isMatchOrClose = False
+                else:
+                    self.__result_dict["c"] = self.__result_dict["c"] + 1
 
         if hasMatchOrClose:
             return f"{self.__result_dict['m']} Match, {self.__result_dict['c']} Close"
