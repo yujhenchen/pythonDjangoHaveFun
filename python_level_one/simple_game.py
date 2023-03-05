@@ -1,13 +1,23 @@
+import random
+
+
 class GuessNumbers:
-    def __init__(self) -> None:
-        pass
+    def __init__(self, input_digits=None) -> None:
+        if input_digits is None:
+            digits = list(range(10))
+            random.shuffle(digits)
+            self.__target_nums = digits[:3]
+        else:
+            self.__target_nums = input_digits
+        self.guess_nums = []
 
-    def show_game_result(self) -> None:
-        pass
+    def get_numbers(self) -> list:
+        return self.__target_nums
 
-    def make_guess(self) -> None:
-        pass
+    def get_result(self) -> str:
+        if self.guess_nums == self.__target_nums:
+            return "Perfect Match"
+        return ""
 
-
-if __name__ == "__main__":
-    print()
+    def make_guess(self, num_ls) -> None:
+        self.guess_nums = num_ls

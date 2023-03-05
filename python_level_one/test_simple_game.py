@@ -1,4 +1,5 @@
 import unittest
+from simple_game import GuessNumbers
 
 """ 
 test cases for the target 123:
@@ -25,4 +26,29 @@ test cases for the target 123:
 
 
 class TestGuessNumbers(unittest.TestCase):
-    pass
+    def setUp(self):
+        self.guessNums = GuessNumbers([4, 5, 6])
+
+    def test_Perfect_match(self):
+        self.guessNums.make_guess([4, 5, 6])
+        result = self.guessNums.get_result()
+        target_result = "Perfect Match"
+        self.assertEqual(
+            result,
+            target_result,
+            f"result {result} should be target_result {target_result}",
+        )
+
+    # def test_nope(self):
+    #     self.guessNums.make_guess([1, 2, 3])
+    #     result = self.guessNums.get_result()
+    #     target_result = "Nope"
+    #     self.assertEqual(
+    #         result,
+    #         target_result,
+    #         f"result {result} should be target_result {target_result}",
+    #     )
+
+
+if __name__ == "__main__":
+    unittest.main()
