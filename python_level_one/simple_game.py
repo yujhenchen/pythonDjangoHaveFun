@@ -17,7 +17,15 @@ class GuessNumbers:
     def get_result(self) -> str:
         if self.guess_nums == self.__target_nums:
             return "Perfect Match"
-        return ""
+
+        anyMatch = False
+        for number in self.guess_nums:
+            if number in self.__target_nums:
+                anyMatch = True
+
+        if anyMatch:
+            return ""
+        return "Nope"
 
     def make_guess(self, num_ls) -> None:
         self.guess_nums = num_ls

@@ -29,25 +29,20 @@ class TestGuessNumbers(unittest.TestCase):
     def setUp(self):
         self.guessNums = GuessNumbers([4, 5, 6])
 
-    def test_Perfect_match(self):
-        self.guessNums.make_guess([4, 5, 6])
-        result = self.guessNums.get_result()
-        target_result = "Perfect Match"
+    def assert_results_equal(self, result, target_result):
         self.assertEqual(
             result,
             target_result,
             f"result {result} should be target_result {target_result}",
         )
 
-    # def test_nope(self):
-    #     self.guessNums.make_guess([1, 2, 3])
-    #     result = self.guessNums.get_result()
-    #     target_result = "Nope"
-    #     self.assertEqual(
-    #         result,
-    #         target_result,
-    #         f"result {result} should be target_result {target_result}",
-    #     )
+    def test_Perfect_match(self):
+        self.guessNums.make_guess([4, 5, 6])
+        self.assert_results_equal(self.guessNums.get_result(), "Perfect Match")
+
+    def test_nope(self):
+        self.guessNums.make_guess([1, 2, 3])
+        self.assert_results_equal(self.guessNums.get_result(), "Nope")
 
 
 if __name__ == "__main__":
