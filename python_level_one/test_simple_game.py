@@ -44,6 +44,10 @@ class TestGuessNumbers(unittest.TestCase):
         self.guessNums.make_guess([1, 2, 3])
         self.assert_results_equal(self.guessNums.get_result(), "Nope")
 
+    def test_one_close(self):
+        self.guessNums.make_guess([5, 1, 2])
+        self.assert_results_equal(self.guessNums.get_result(), "0 Match, 1 Close")
+
 
 if __name__ == "__main__":
     unittest.main()
