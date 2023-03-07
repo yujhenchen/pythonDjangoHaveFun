@@ -6,3 +6,6 @@ class Player:
 
     def get_cards(self) -> list:
         return self.__cards
+
+    def reset(self) -> None:
+        self.__cards = []
