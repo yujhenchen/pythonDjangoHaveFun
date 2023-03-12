@@ -3,7 +3,7 @@
 MY_ENV="python_django_env"
 
 # conda update -y conda
-conda update -n base -c defaults conda
+conda update -n base -c defaults conda -y
 
 conda --version
 conda env list
