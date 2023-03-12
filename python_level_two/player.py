@@ -1,8 +1,12 @@
+import random
+
+
 class Player:
     def __init__(self) -> None:
         self.__cards: list[int] = []
-        for i in range(26):
+        for i in range(5):
             self.__cards.append(i)
+        random.shuffle(self.__cards)
 
     def get_cards(self) -> list[int]:
         """return player's cards"""

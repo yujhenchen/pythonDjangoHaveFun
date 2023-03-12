@@ -1,4 +1,5 @@
 from game import Game
+from player import Player
 
 
 def main():
@@ -6,7 +7,7 @@ def main():
 
     # init the games with players
     # if no winner, play the game, else print the winner
-    card_game = Game(["A", "B"])
+    card_game = Game([Player(), Player()])
     card_game.play_game()
 
 
