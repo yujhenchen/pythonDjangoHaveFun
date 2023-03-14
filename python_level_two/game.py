@@ -19,10 +19,10 @@ class Game:
         , if is_war == True && is_double_war == True
         , smaller card player loose 4 card, bigger numbre player get 4 card
         """
-        # need to handle when card_idx exceed the array
         is_war = False
         is_double_war = False
         card_idx = 0
+        to_compare_card_idx = 0
         war_card_idx = 3
         war_move_card_count = 4
         player1_card: int = 0
@@ -33,23 +33,23 @@ class Game:
                 print("game over!")
                 break
 
-            """ 
-            when is_war, current card index is changed to 4,
-            but move card should still start from 0, and move 4 times.
-            so get indexo ut of range error now
-            """
+            player1_card = self.__player_ls[0].get_cards()[to_compare_card_idx]
+            player2_card = self.__player_ls[1].get_cards()[to_compare_card_idx]
 
-            player1_card = self.__player_ls[0].get_cards()[card_idx]
-            player2_card = self.__player_ls[1].get_cards()[card_idx]
+            # print(f"war_move_card_count: {war_move_card_count}")
 
             if player1_card == player2_card:
                 if is_war:
                     is_double_war = True
+                    # print(f"is_double_war")
 
                     lucky_person_idex = self.get_lucky_player_index()
-                    remove_card_person = 0 if lucky_person_idex == 1 else 0
-                    print(f"lucky_person_idex: {lucky_person_idex}")
-                    print(f"remove_card_person: {remove_card_person}")
+                    if lucky_person_idex == 0:
+                        remove_card_person = 1
+                    else:
+                        remove_card_person = 0
+                    # print(f"lucky_person_idex: {lucky_person_idex}")
+                    # print(f"remove_card_person: {remove_card_person}")
 
                     while (
                         len(self.__player_ls[remove_card_person].get_cards()) > 0
@@ -62,16 +62,14 @@ class Game:
                         war_move_card_count += -1
                     is_war = False
                     is_double_war = False
-                    card_idx = 0
+                    to_compare_card_idx = 0
                 else:
                     is_war = True
-                    if card_idx < len(
-                        self.__player_ls[0].get_cards()
-                    ) and card_idx < len(self.__player_ls[1].get_cards()):
-                        card_idx = war_card_idx
-                    else:
-                        card_idx = 1
-                    print(f"card_idx after is_war = True: {card_idx}")
+                    to_compare_card_idx = min(
+                        len(self.__player_ls[0].get_cards()) - 1,
+                        len(self.__player_ls[1].get_cards()) - 1,
+                        war_card_idx,
+                    )
             else:
                 if player1_card > player2_card:
                     if is_war:
@@ -102,7 +100,8 @@ class Game:
                         self.__player_ls[1].append_card(player1_card)
                         self.__player_ls[0].remove_card(card_idx)
                 is_war = False
-                card_idx = 0
+                to_compare_card_idx = 0
+            # print(f"to_compare_card_idx: {to_compare_card_idx}")
 
     def is_game_over(self) -> bool:
         """check if the game is over"""
