@@ -51,15 +51,21 @@ class Game:
                     # print(f"lucky_person_idex: {lucky_person_idex}")
                     # print(f"remove_card_person: {remove_card_person}")
 
-                    while (
-                        len(self.__player_ls[remove_card_person].get_cards()) > 0
-                        and war_move_card_count > 0
-                    ):
-                        self.__player_ls[lucky_person_idex].append_card(
-                            self.__player_ls[remove_card_person].get_cards()[card_idx]
-                        )
-                        self.__player_ls[remove_card_person].remove_card(card_idx)
-                        war_move_card_count += -1
+                    # while (
+                    #     len(self.__player_ls[remove_card_person].get_cards()) > 0
+                    #     and war_move_card_count > 0
+                    # ):
+                    #     self.__player_ls[lucky_person_idex].append_card(
+                    #         self.__player_ls[remove_card_person].get_cards()[card_idx]
+                    #     )
+                    #     self.__player_ls[remove_card_person].remove_card(card_idx)
+                    #     war_move_card_count += -1
+                    self.move_cards(
+                        remove_card_person,
+                        lucky_person_idex,
+                        war_move_card_count,
+                        card_idx,
+                    )
                     is_war = False
                     is_double_war = False
                     to_compare_card_idx = 0
@@ -73,29 +79,41 @@ class Game:
             else:
                 if player1_card > player2_card:
                     if is_war:
-                        while (
-                            len(self.__player_ls[1].get_cards()) > 0
-                            and war_move_card_count > 0
-                        ):
-                            self.__player_ls[0].append_card(
-                                self.__player_ls[1].get_cards()[card_idx]
-                            )
-                            self.__player_ls[1].remove_card(card_idx)
-                            war_move_card_count += -1
+                        # while (
+                        #     len(self.__player_ls[1].get_cards()) > 0
+                        #     and war_move_card_count > 0
+                        # ):
+                        #     self.__player_ls[0].append_card(
+                        #         self.__player_ls[1].get_cards()[card_idx]
+                        #     )
+                        #     self.__player_ls[1].remove_card(card_idx)
+                        #     war_move_card_count += -1
+                        self.move_cards(
+                            1,
+                            0,
+                            war_move_card_count,
+                            card_idx,
+                        )
                     else:
                         self.__player_ls[0].append_card(player2_card)
                         self.__player_ls[1].remove_card(card_idx)
                 elif player1_card < player2_card:
                     if is_war:
-                        while (
-                            len(self.__player_ls[0].get_cards()) > 0
-                            and war_move_card_count > 0
-                        ):
-                            self.__player_ls[1].append_card(
-                                self.__player_ls[0].get_cards()[card_idx]
-                            )
-                            self.__player_ls[0].remove_card(card_idx)
-                            war_move_card_count += -1
+                        # while (
+                        #     len(self.__player_ls[0].get_cards()) > 0
+                        #     and war_move_card_count > 0
+                        # ):
+                        #     self.__player_ls[1].append_card(
+                        #         self.__player_ls[0].get_cards()[card_idx]
+                        #     )
+                        #     self.__player_ls[0].remove_card(card_idx)
+                        #     war_move_card_count += -1
+                        self.move_cards(
+                            0,
+                            1,
+                            war_move_card_count,
+                            card_idx,
+                        )
                     else:
                         self.__player_ls[1].append_card(player1_card)
                         self.__player_ls[0].remove_card(card_idx)
@@ -114,14 +132,23 @@ class Game:
         """return the player index that can get all cards when double war"""
         return random.randrange(len(self.__player_ls))
 
-    # def move_cards(self, from_player, to_player, cards, is_war, is_double_war) -> None:
-    #     """move the cards to different players based on the game status"""
-    #     if is_war and is_double_war:
-    #         lucky_person = self.__player_ls[self.get_lucky_player_index()]
-    #     elif is_war:
-    #         pass
-    #     else:
-    #         pass
+    def move_cards(
+        self,
+        from_player_idx: int,
+        to_player_idx: int,
+        war_move_card_count: int,
+        card_idx: int,
+    ) -> None:
+        """move the cards to different players based on the game status"""
+        while (
+            len(self.__player_ls[from_player_idx].get_cards()) > 0
+            and war_move_card_count > 0
+        ):
+            self.__player_ls[to_player_idx].append_card(
+                self.__player_ls[from_player_idx].get_cards()[card_idx]
+            )
+            self.__player_ls[from_player_idx].remove_card(card_idx)
+            war_move_card_count += -1
 
     def show_game_results(self) -> None:
         """print card count of each player"""
